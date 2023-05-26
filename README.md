@@ -23,6 +23,13 @@
 - npx prisma studio - visualiza banco de dados
 - npm i @prisma/client
 
+Error:
+npx prisma migrate dev
+⚠️ We found changes that cannot be executed:
+npx prisma migrate reset
+yes
+enter
+
 ## Front End - Web
 
 npx create-next-app@latest web --use-npm
@@ -31,3 +38,6 @@ npm i @rocketseat/eslint-config -D
 Mobile
 npx create-expo-app mobile
 https://www.nativewind.dev/quick-starts/create-react-native-app
+
+rel="noreferrer"
+npx expo install @expo-google-fonts/roboto @expo-google-fonts/bai-jamjuree expo-font

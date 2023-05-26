@@ -1,16 +1,40 @@
+import 'dotenv/config'
+
 import fastify from 'fastify'
-import { PrismaClient } from '@prisma/client'
+import cors from '@fastify/cors'
+import jwt from '@fastify/jwt'
+import multipart from '@fastify/multipart'
+import { memoriesRoutes } from './routes/memories'
+import { authRoutes } from './routes/auth'
+import { uploadRoutes } from './routes/upload'
+import { resolve } from 'node:path'
 
 const app = fastify()
-const prisma = new PrismaClient()
 
-// HTTP Method: GET, POST, PUT, PATCH, DELETE
-app.get('/users', async () => {
-  const users = await prisma.user.findMany()
-  return users
+app.register(multipart)
+
+app.register(require('@fastify/static'), {
+  root: resolve(__dirname, '../uploads'),
+  prefix: '/uploads',
 })
 
-// API REST
-app.listen({ port: 3333 }).then(() => {
-  console.log('🚗💨💨💨 HTTP server running on http://localhost:3333')
+app.register(cors, {
+  origin: true,
 })
+
+app.register(jwt, {
+  secret: 'spacetime',
+})
+
+app.register(authRoutes)
+app.register(uploadRoutes)
+app.register(memoriesRoutes)
+
+app
+  .listen({
+    port: 3333,
+    host: '0.0.0.0',
+  })
+  .then(() => {
+    console.log('🚀 HTTP server running on port http://localhost:3333')
+  })
